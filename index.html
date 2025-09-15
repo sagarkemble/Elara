@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/style.css" />
-    <title>Vite App</title>
+    <title>Elara</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -35,10 +35,10 @@
       </div>
       <div class="quote-wrapper flex flex-col items-center gap-3">
         <p
-          class="quote-text max-w-[60vw] cursor-pointer text-xl lg:text-4xl"
+          class="quote-text cursor-pointer text-xl lg:max-w-[60vw] lg:text-4xl"
         ></p>
         <p
-          class="author-name flex w-full cursor-pointer justify-end text-xs lg:text-base"
+          class="author-name flex w-full -translate-x-1 cursor-pointer justify-end text-xs lg:text-base"
         ></p>
       </div>
     </main>
@@ -46,7 +46,9 @@
       <div class="socials flex text-xl lg:gap-3 lg:text-2xl">
         <!-- GitHub -->
         <div class="group hover: relative">
-          <i class="fa-brands icon fa-github hover:cursor-pointer"></i>
+          <a href="https://github.com/sagarkemble">
+            <i class="fa-brands icon fa-github hover:cursor-pointer"></i>
+          </a>
           <span
             class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           >
@@ -56,7 +58,9 @@
 
         <!-- Instagram -->
         <div class="group relative">
-          <i class="fa-brands icon fa-instagram hover:cursor-pointer"></i>
+          <a href="https://www.instagram.com/sagar_kemble_/">
+            <i class="fa-brands icon fa-instagram hover:cursor-pointer"></i>
+          </a>
           <span
             class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           >
@@ -66,7 +70,9 @@
 
         <!-- Twitter -->
         <div class="group relative">
-          <i class="fa-brands icon fa-x-twitter hover:cursor-pointer"></i>
+          <a href="https://x.com/sagar__kemble">
+            <i class="fa-brands icon fa-x-twitter hover:cursor-pointer"></i>
+          </a>
           <span
             class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           >
