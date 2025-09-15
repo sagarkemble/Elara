@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en" class="bg-background h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,7 @@
     />
   </head>
   <body
-    class="bg-background text-foreground flex h-full flex-col justify-between px-6 py-7"
+    class="bg-background text-foreground flex h-full flex-col justify-between px-6 py-7 transition-opacity duration-300"
   >
     <div
       class="loading-screen bg-background text-foreground absolute top-0 left-0 z-50 flex h-full w-full items-center justify-center"
@@ -24,8 +24,29 @@
         <p>Guiding you with gentle words</p>
       </div>
     </div>
-    <header class="w-full">
+    <header class="flex w-full items-center justify-between">
       <p class="name text text-2xl font-semibold">Elara</p>
+      <div class="relative h-8 w-8">
+        <svg class="h-full w-full -rotate-90 transition-all">
+          <circle class="" cx="50%" cy="50%" r="44%" fill="none" />
+          <circle
+            class="progress stroke-foreground"
+            cx="50%"
+            cy="50%"
+            r="44%"
+            stroke-width="3"
+            fill="none"
+            stroke-linecap="round"
+            stroke-dasharray="276.46"
+            stroke-dashoffset="276.46"
+          />
+        </svg>
+        <div
+          class="timer-text absolute inset-0 mx-auto my-auto flex translate-y-0.5 items-center justify-center font-bold"
+        >
+          9
+        </div>
+      </div>
     </header>
     <main class="flex flex-col items-center">
       <div
@@ -82,7 +103,7 @@
       </div>
 
       <p class="instruction text-xs lg:text-base">Swipe right for next quote</p>
-      <div class="swatches flex gap-3">
+      <div class="swatch-wrapper flex gap-3">
         <!-- Background swatch -->
         <div class="group relative">
           <div
