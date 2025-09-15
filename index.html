@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css" />
+    <title>Vite App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body
+    class="bg-background text-foreground flex h-full flex-col justify-between px-6 py-7"
+  >
+    <div
+      class="loading-screen bg-background text-foreground absolute top-0 left-0 z-50 flex h-full w-full items-center justify-center"
+    >
+      <div class="loading-text flex items-baseline gap-3 opacity-0">
+        <p class="text-3xl font-semibold">Elara</p>
+        <p>Guiding you with gentle words</p>
+      </div>
+    </div>
+    <header class="w-full">
+      <p class="name text text-2xl font-semibold">Elara</p>
+    </header>
+    <main class="flex flex-col items-center">
+      <div
+        class="copied-message bg-foreground text-background absolute bottom-40 z-50 hidden rounded-xl px-3 py-2 text-xs opacity-0 transition-all duration-150"
+      >
+        Copied
+      </div>
+      <div class="quote-wrapper flex flex-col items-center gap-3">
+        <p
+          class="quote-text max-w-[60vw] cursor-pointer text-xl lg:text-4xl"
+        ></p>
+        <p
+          class="author-name flex w-full cursor-pointer justify-end text-xs lg:text-base"
+        ></p>
+      </div>
+    </main>
+    <footer class="flex items-center justify-between">
+      <div class="socials flex text-xl lg:gap-3 lg:text-2xl">
+        <!-- GitHub -->
+        <div class="group hover: relative">
+          <i class="fa-brands icon fa-github hover:cursor-pointer"></i>
+          <span
+            class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            GitHub
+          </span>
+        </div>
+
+        <!-- Instagram -->
+        <div class="group relative">
+          <i class="fa-brands icon fa-instagram hover:cursor-pointer"></i>
+          <span
+            class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            Instagram
+          </span>
+        </div>
+
+        <!-- Twitter -->
+        <div class="group relative">
+          <i class="fa-brands icon fa-x-twitter hover:cursor-pointer"></i>
+          <span
+            class="bg-foreground text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            X
+          </span>
+        </div>
+      </div>
+
+      <p class="instruction text-xs lg:text-base">Swipe right for next quote</p>
+      <div class="swatches flex gap-3">
+        <!-- Background swatch -->
+        <div class="group relative">
+          <div
+            class="background-swatch bg-background border-foreground h-6 w-6 rounded-lg border-[1.5px] hover:cursor-pointer"
+          ></div>
+          <span
+            class="bg-foreground background-tooltip text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            #ece4b7
+          </span>
+        </div>
+
+        <!-- Foreground swatch -->
+        <div class="group relative">
+          <div
+            class="foreground-swatch bg-foreground h-6 w-6 rounded-lg hover:cursor-pointer"
+          ></div>
+          <span
+            class="bg-foreground foreground-tooltip text-background absolute -top-7 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            #050315
+          </span>
+        </div>
+      </div>
+    </footer>
+    <script src="src/script/index.js" type="module"></script>
+  </body>
+</html>
