@@ -80,7 +80,7 @@ async function changeQuote() {
     // Assuming fadeInEffect returns a promise or uses animationend
     await fadeInEffect(DOM.quoteWrapper);
 
-    resolve(); // ✅ resolve when done
+    resolve();
   });
 }
 
@@ -171,4 +171,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   DOM.loadingText.addEventListener("animationend", () => {
     fadeOutEffect(DOM.loadingScreen);
   });
+  setInterval(() => {
+    changeQuote();
+  }, 8000);
 });
