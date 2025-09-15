@@ -39,6 +39,11 @@
   filter: brightness(1.2);
   transform: translateY(-2px);
 }
+.icon:active {
+  filter: brightness(1.2);
+  transform: none;
+  transform: none;
+}
 
 .hover-effect {
   cursor: pointer;
@@ -47,4 +52,8 @@
 
 .hover-effect:hover {
   transform: translateY(-2px);
+}
+
+.hover-effect:active {
+  transform: none;
 }

@@ -2,6 +2,7 @@ import { quotesArr } from "./quotes.js";
 import { swatchArr } from "./swatch.js";
 
 const DOM = {
+  title: document.querySelector(".title"),
   instruction: document.querySelector(".instruction"),
   copiedMessage: document.querySelector(".copied-message"),
   swatch: {
@@ -229,6 +230,9 @@ DOM.quote.author.addEventListener("click", () => {
   setTimeout(() => {
     fadeOutEffect(DOM.copiedMessage);
   }, 1000);
+});
+DOM.title.addEventListener("click", () => {
+  nextQuote();
 });
 document.addEventListener("keydown", async function (event) {
   if (event.code === "Space") {
