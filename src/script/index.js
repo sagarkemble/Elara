@@ -216,16 +216,16 @@ DOM.swatch.foreground.addEventListener("click", () => {
   }
 });
 DOM.quote.text.addEventListener("click", () => {
-  navigator.clipboard.writeText(DOM.quoteText.textContent);
-  DOM.copiedMessage.textContent = `Copied quote by ${DOM.author.textContent}`;
+  navigator.clipboard.writeText(DOM.quote.text.textContent);
+  DOM.copiedMessage.textContent = `Copied quote by ${DOM.quote.author.textContent}`;
   fadeInEffect(DOM.copiedMessage);
   setTimeout(() => {
     fadeOutEffect(DOM.copiedMessage);
   }, 1000);
 });
 DOM.quote.author.addEventListener("click", () => {
-  navigator.clipboard.writeText(DOM.quoteText.textContent);
-  DOM.copiedMessage.textContent = `Copied quote by ${DOM.author.textContent}`;
+  navigator.clipboard.writeText(DOM.quote.text.textContent);
+  DOM.copiedMessage.textContent = `Copied quote by ${DOM.quote.author.textContent}`;
   fadeInEffect(DOM.copiedMessage);
   setTimeout(() => {
     fadeOutEffect(DOM.copiedMessage);
