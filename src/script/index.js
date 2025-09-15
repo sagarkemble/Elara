@@ -1,23 +1,33 @@
-import { logo } from "quote-generator";
 import { quotesArr } from "./quotes.js";
 import { swatchArr } from "./swatch.js";
+
 const DOM = {
-  quoteWrapper: document.querySelector(".quote-wrapper"),
-  quoteText: document.querySelector(".quote-text"),
-  author: document.querySelector(".author-name"),
   instruction: document.querySelector(".instruction"),
-  backgroundSwatch: document.querySelector(".background-swatch"),
-  foregroundSwatch: document.querySelector(".foreground-swatch"),
-  backgroundSwatchTooltip: document.querySelector(".background-tooltip"),
-  foregroundSwatchTooltip: document.querySelector(".foreground-tooltip"),
   copiedMessage: document.querySelector(".copied-message"),
-  loadingScreen: document.querySelector(".loading-screen"),
-  loadingText: document.querySelector(".loading-text"),
-  countDowm: {
+  swatch: {
+    wrapper: document.querySelector(".swatch-wrapper"),
+    background: document.querySelector(".background-swatch"),
+    foreground: document.querySelector(".foreground-swatch"),
+    backgroundTooltip: document.querySelector(".background-tooltip"),
+    foregroundTooltip: document.querySelector(".foreground-tooltip"),
+  },
+  quote: {
+    wrapper: document.querySelector(".quote-wrapper"),
+    text: document.querySelector(".quote-text"),
+    author: document.querySelector(".author-name"),
+  },
+  loading: {
+    screen: document.querySelector(".loading-screen"),
+    text: document.querySelector(".loading-text"),
+  },
+
+  countdown: {
+    timer: document.querySelector(".countdown-timer"),
+    text: document.querySelector(".timer-text"),
     circle: document.querySelector(".progress"),
   },
-  swatchWrapper: document.querySelector(".swatch-wrapper"),
 };
+
 const root = document.documentElement;
 let activeBgColor = "#ece4b7";
 let activeFgColor = "#050315";
@@ -25,43 +35,42 @@ let quoteIndex;
 let colorIndex;
 let swatchIndex;
 
-async function nextQuote() {
-  return new Promise(async (resolve) => {
-    setIndex();
-    // setTimeout(() => {
-    // changeBackground();
-    // }, 20);
-    await fadeOutEffect(DOM.quoteWrapper);
-    changeForeground();
-    changeBackground();
-    changeQuote();
-    await fadeInEffect(DOM.quoteWrapper);
-
-    resolve();
-  });
-}
+// inital start
 document.addEventListener("DOMContentLoaded", async () => {
   startScreenAnimation();
 });
-function startScreenAnimation() {
+async function startScreenAnimation() {
   setIndex();
-  console.log(colorIndex, swatchIndex, quoteIndex);
-
   changeBackground();
   changeForeground();
   changeQuote();
-  DOM.loadingText.classList.add("animate-loading-text");
-  console.log(DOM.loadingText);
-
-  DOM.loadingText.addEventListener("animationend", () => {
-    fadeOutEffect(DOM.loadingScreen);
+  DOM.loading.text.classList.add("animate-loading-text");
+  DOM.loading.text.addEventListener("animationend", async () => {
+    resetTimer();
+    await fadeOutEffect(DOM.loading.screen);
   });
-  nextQuote();
-  resetTimer();
 }
 
+// change/next quote and supported functions
+async function nextQuote() {
+  return new Promise(async (resolve) => {
+    DOM.countdown.timer.style.opacity = "0";
+    setIndex();
+    await fadeOutEffect(DOM.quote.wrapper);
+    changeForeground();
+    changeBackground();
+    changeQuote();
+    resetTimer();
+
+    DOM.countdown.timer.style.opacity = "1";
+    await fadeInEffect(DOM.quote.wrapper);
+    resolve();
+  });
+}
 function setIndex() {
   colorIndex = Math.floor(Math.random() * swatchArr.length);
+  console.log(colorIndex);
+
   swatchIndex = Math.random() < 0.5 ? 0 : 1;
   quoteIndex = Math.floor(Math.random() * quotesArr.length);
 }
@@ -70,39 +79,33 @@ function changeBackground() {
     ? `#${swatchArr[colorIndex].color2}`
     : `#${swatchArr[colorIndex].color1}`;
   root.style.setProperty("--color-background", backgroundColor);
-  DOM.backgroundSwatchTooltip.textContent = backgroundColor;
+  DOM.swatch.backgroundTooltip.textContent = backgroundColor;
   activeBgColor = backgroundColor;
-  console.log("background changed");
 }
 function changeForeground() {
   const foregroundColor = swatchIndex
     ? `#${swatchArr[colorIndex].color1}`
     : `#${swatchArr[colorIndex].color2}`;
   root.style.setProperty("--color-foreground", foregroundColor);
-  DOM.foregroundSwatchTooltip.textContent = foregroundColor;
+  DOM.swatch.foregroundTooltip.textContent = foregroundColor;
   activeFgColor = foregroundColor;
-  console.log("foreground changed");
 }
 function changeQuote() {
   const quote = quotesArr[quoteIndex];
-  console.log(quoteIndex);
-
-  DOM.author.textContent = `— ${quote.from}`;
-  DOM.quoteText.textContent = quote.text;
+  DOM.quote.author.textContent = `— ${quote.from}`;
+  DOM.quote.text.textContent = quote.text;
 }
 
 // timer
-const duration = 8; // seconds
-const circle = document.querySelector(".progress");
-const text = document.querySelector(".timer-text");
-const radius = circle.r.baseVal.value;
+const duration = 8;
+const radius = DOM.countdown.circle.r.baseVal.value;
 const circumference = 2 * Math.PI * radius;
-circle.style.strokeDasharray = circumference;
-circle.style.strokeDashoffset = circumference;
+DOM.countdown.circle.style.strokeDasharray = circumference;
+DOM.countdown.circle.style.strokeDashoffset = circumference;
 let start = null;
 let isPaused = false;
 let pausedAt = 0;
-function animate(timestamp) {
+async function animate(timestamp) {
   if (!start) start = timestamp;
 
   // if paused, just freeze
@@ -114,35 +117,31 @@ function animate(timestamp) {
   const elapsed = (timestamp - start) / 1000;
   const progress = Math.min(elapsed / duration, 1);
 
-  circle.style.strokeDashoffset = circumference * (1 - progress);
-  text.textContent = Math.ceil(duration - progress * duration);
+  DOM.countdown.circle.style.strokeDashoffset = circumference * (1 - progress);
+  DOM.countdown.text.textContent = Math.ceil(duration - progress * duration);
 
   if (progress < 1) {
     requestAnimationFrame(animate);
   } else {
     nextQuote();
-    resetTimer();
   }
 }
-
 function pauseTimer() {
   if (!isPaused) {
     isPaused = true;
     pausedAt = performance.now() - start;
   }
 }
-
 function resumeTimer() {
   if (isPaused) {
     isPaused = false;
     start = performance.now() - pausedAt;
   }
 }
-
 function resetTimer() {
   start = null;
-  circle.style.strokeDashoffset = circumference;
-  text.textContent = duration;
+  DOM.countdown.circle.style.strokeDashoffset = circumference;
+  DOM.countdown.text.textContent = duration;
   requestAnimationFrame(animate);
 }
 
@@ -159,21 +158,33 @@ document.addEventListener("touchend", (e) => {
   touchEndX = e.changedTouches[0].screenX;
   handleSwipe();
 });
-function handleSwipe() {
-  const threshold = 100; // Minimum distance for a swipe
+async function handleSwipe() {
+  const threshold = 100;
   const diffX = touchEndX - touchStartX;
 
   if (diffX > threshold) {
     nextQuote();
-    resetTimer();
   } else if (diffX < -threshold) {
     nextQuote();
-    resetTimer();
   }
 }
 
-//listners
-DOM.backgroundSwatch.addEventListener("click", () => {
+// touch/mouse
+let longPressTimer;
+document.addEventListener("touchstart", () => {
+  longPressTimer = setTimeout(() => {
+    pauseTimer();
+  }, 150);
+});
+document.addEventListener("touchend", () => {
+  clearTimeout(longPressTimer);
+  resumeTimer();
+});
+document.addEventListener("mousedown", pauseTimer);
+document.addEventListener("mouseup", resumeTimer);
+
+//other listners
+DOM.swatch.background.addEventListener("click", () => {
   navigator.clipboard.writeText(activeBgColor);
   if (document.body.clientWidth <= 1024) {
     DOM.copiedMessage.textContent = `Copied ${activeBgColor}`;
@@ -182,13 +193,13 @@ DOM.backgroundSwatch.addEventListener("click", () => {
       fadeOutEffect(DOM.copiedMessage);
     }, 1000);
   } else {
-    DOM.backgroundSwatchTooltip.textContent = "Copied!";
+    DOM.swatch.backgroundTooltip.textContent = "Copied!";
     setTimeout(() => {
-      DOM.backgroundSwatchTooltip.textContent = activeBgColor;
+      DOM.swatch.backgroundTooltip.textContent = activeBgColor;
     }, 500);
   }
 });
-DOM.foregroundSwatch.addEventListener("click", () => {
+DOM.swatch.foreground.addEventListener("click", () => {
   navigator.clipboard.writeText(activeFgColor);
   if (document.body.clientWidth <= 1024) {
     DOM.copiedMessage.textContent = `Copied ${activeFgColor}`;
@@ -197,13 +208,13 @@ DOM.foregroundSwatch.addEventListener("click", () => {
       fadeOutEffect(DOM.copiedMessage);
     }, 1000);
   } else {
-    DOM.foregroundSwatchTooltip.textContent = "Copied!";
+    DOM.swatch.foregroundTooltip.textContent = "Copied!";
     setTimeout(() => {
-      DOM.foregroundSwatchTooltip.textContent = activeFgColor;
+      DOM.swatch.foregroundTooltip.textContent = activeFgColor;
     }, 500);
   }
 });
-DOM.quoteText.addEventListener("click", () => {
+DOM.quote.text.addEventListener("click", () => {
   navigator.clipboard.writeText(DOM.quoteText.textContent);
   DOM.copiedMessage.textContent = `Copied quote by ${DOM.author.textContent}`;
   fadeInEffect(DOM.copiedMessage);
@@ -211,7 +222,7 @@ DOM.quoteText.addEventListener("click", () => {
     fadeOutEffect(DOM.copiedMessage);
   }, 1000);
 });
-DOM.author.addEventListener("click", () => {
+DOM.quote.author.addEventListener("click", () => {
   navigator.clipboard.writeText(DOM.quoteText.textContent);
   DOM.copiedMessage.textContent = `Copied quote by ${DOM.author.textContent}`;
   fadeInEffect(DOM.copiedMessage);
@@ -219,22 +230,14 @@ DOM.author.addEventListener("click", () => {
     fadeOutEffect(DOM.copiedMessage);
   }, 1000);
 });
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", async function (event) {
   if (event.code === "Space") {
     event.preventDefault();
     nextQuote();
-    resetTimer();
   }
 });
-// Mouse
-document.addEventListener("mousedown", pauseTimer);
-document.addEventListener("mouseup", resumeTimer);
 
-// Touch
-document.addEventListener("touchstart", pauseTimer);
-document.addEventListener("touchend", resumeTimer);
-
-// animations
+// animation functions
 export async function fadeInEffect(element) {
   if (!element.classList.contains("hidden")) {
     return;
