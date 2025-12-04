@@ -115,7 +115,7 @@ async function animate(timestamp) {
     return;
   }
 
-  const elapsed = (timestamp - start) / 1000;
+  // const elapsed = (timestamp - start) / 1000;
   const progress = Math.min(elapsed / duration, 1);
 
   DOM.countdown.circle.style.strokeDashoffset = circumference * (1 - progress);
